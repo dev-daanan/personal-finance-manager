@@ -1,0 +1,10 @@
+# Ignore compiled class files
+*.class
+
+# Ignore build and IDE-specific directories
+target/
+.idea/
+.vscode/
+
+# Ignore configuration files with sensitive information
+application.properties
