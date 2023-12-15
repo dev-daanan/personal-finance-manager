@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>Welcome to the Personal Finance Manager!</h2>
+
+    <!-- User Information -->
+    <div class="user-info mt-4">
+      <h4>User Information:</h4>
+      <p><strong>Username:</strong> <span th:text="${user.username}">Username</span></p>
+      <p><strong>Email:</strong> <span th:text="${user.email}">Email</span></p>
+      <p><strong>Name:</strong> <span th:text="${user.name}">Name</span></p>
+    </div>
+
+    <!-- Categories List -->
+    <div class="user-categories mt-4">
+      <h4>Your Categories:</h4>
+      <ul>
+        <li th:each="category : ${categories}">
+          <span th:text="'name: ' + ${category.name} + ', type: ' + ${category.type}">Category Name and Type</span>
+        </li>
+      </ul>
+    </div>
+
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn btn-danger mt-3">Logout</button>
+    </form>
+  </div>
+</body>
+</html>

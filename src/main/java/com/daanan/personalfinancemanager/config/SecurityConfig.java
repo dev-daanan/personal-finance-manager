@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
 
@@ -25,8 +26,9 @@ public class SecurityConfig {
                 "select username, password_hash, enabled from user where username=?"
         );
 
+        // Since authorities are not being used, authorities are set to empty in the query
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "select username, role from user where username=?"
+                "select username, 'NO_AUTHORITIES' as authority from user where username=?"
         );
 
         return jdbcUserDetailsManager;
@@ -38,14 +40,14 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/").hasRole("USER")
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/register").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
                         form
-                                .loginPage("/showMyLoginPage")
-                                .loginProcessingUrl("/authenticateTheUser")
+                                .loginPage("/login")
+                                .loginProcessingUrl("/loginProcessing")
+                                .defaultSuccessUrl("/home", true)
                                 .permitAll()
                 )
                 .logout(logout -> logout.permitAll()
